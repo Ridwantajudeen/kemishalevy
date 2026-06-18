@@ -153,7 +153,7 @@ export function Home() {
           <div className="story-bullets">
             {storyBullets.map((item, index) => (
               <div key={item} className="story-bullet">
-                <span className="pill-bar" data-tone={index % 2 === 0 ? 'gold' : 'blue'} />
+                <span className="pill-bar" data-tone={index % 2 === 0 ? 'gold' : 'rose'} />
                 <p>{item}</p>
               </div>
             ))}

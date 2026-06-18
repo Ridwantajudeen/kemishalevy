@@ -18,7 +18,7 @@ const chapters = [
     heading: 'A decade of leadership',
     paragraphs: [
       'Professionally, I spent over a decade working in healthcare and dental administration, building leadership, management, and operational skills that would later prove invaluable when it came time to build my own organisations. I learned how systems work, how people work, and how to lead with both efficiency and empathy.',
-      'Alongside my career, I pursued higher education with serious intent. Earning a master&apos;s degree in business administration was not just an academic achievement; it was a declaration of the kind of leader I wanted to become. It deepened my understanding of strategy, operations, and the mechanics of building businesses that last.',
+      'Alongside my career, I pursued higher education with serious intent. Earning a master and a degree in business administration was not just an academic achievement; it was a declaration of the kind of leader I wanted to become. It deepened my understanding of strategy, operations, and the mechanics of building businesses that last.',
     ],
   },
   {
@@ -54,7 +54,7 @@ const timeline = [
   },
   {
     year: 'MBA',
-    title: 'Master&apos;s degree in business administration',
+    title: 'Master and a degree in business administration',
     body: 'Pursued higher education alongside a full career and motherhood. A commitment to growing in every direction at once.',
   },
   {

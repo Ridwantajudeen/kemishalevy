@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './notary.css';
 
 const serviceOptions = [
@@ -58,6 +59,9 @@ export default function Notary() {
       <section className="appointment-hero">
         <div className="appointment-shell appointment-hero__grid">
           <div className="appointment-hero__copy">
+            <p className="appointment-breadcrumb">
+              <Link to="/">Home</Link> <span>/</span> Book appointment
+            </p>
             <p className="appointment-kicker">Notary services</p>
             <h1>Book your appointment</h1>
             <p className="appointment-lead">

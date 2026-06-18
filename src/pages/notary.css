@@ -1,8 +1,8 @@
 .appointment-page {
   background:
-    radial-gradient(circle at top left, rgba(201, 161, 70, 0.09), transparent 28%),
-    linear-gradient(180deg, #f8f5f0 0%, #f4f0ea 100%);
-  color: #182336;
+    radial-gradient(circle at top left, rgba(196, 120, 142, 0.12), transparent 28%),
+    linear-gradient(180deg, #fffcf8 0%, #f7f1ea 100%);
+  color: #1c1612;
 }
 
 .appointment-shell {
@@ -20,9 +20,9 @@
   min-height: 520px;
   border-radius: 30px;
   overflow: hidden;
-  background: linear-gradient(135deg, #fffdf9 0%, #f4efe7 100%);
-  border: 1px solid rgba(24, 35, 54, 0.08);
-  box-shadow: 0 28px 80px rgba(24, 35, 54, 0.08);
+  background: linear-gradient(135deg, #fffdf9 0%, #f7f1ea 100%);
+  border: 1px solid #ede5dc;
+  box-shadow: 0 28px 80px rgba(28, 22, 18, 0.08);
 }
 
 .appointment-hero__copy {
@@ -41,8 +41,21 @@
   text-transform: uppercase;
   letter-spacing: 0.24em;
   font-size: 0.72rem;
-  color: #bd9440;
+  color: #bf9b4e;
   font-weight: 700;
+}
+
+.appointment-breadcrumb {
+  margin: 0;
+  color: #c4788e;
+}
+
+.appointment-breadcrumb a {
+  color: #c4788e;
+}
+
+.appointment-breadcrumb span {
+  color: #bf9b4e;
 }
 
 .appointment-hero h1,
@@ -58,6 +71,7 @@
   font-size: clamp(3rem, 6vw, 5.2rem);
   line-height: 0.95;
   max-width: 9ch;
+  color: #1c1612;
 }
 
 .appointment-lead {
@@ -65,7 +79,7 @@
   max-width: 38rem;
   font-size: 1.06rem;
   line-height: 1.8;
-  color: rgba(24, 35, 54, 0.76);
+  color: #5c5248;
 }
 
 .appointment-trust {
@@ -80,8 +94,8 @@
   gap: 8px;
   padding: 10px 14px;
   border-radius: 999px;
-  background: rgba(24, 35, 54, 0.05);
-  color: #24314a;
+  background: rgba(242, 217, 223, 0.72);
+  color: #1c1612;
   font-size: 0.92rem;
   font-weight: 600;
 }
@@ -89,9 +103,9 @@
 .appointment-hero__panel {
   position: relative;
   background:
-    radial-gradient(circle at 30% 30%, rgba(201, 161, 70, 0.18), transparent 24%),
-    linear-gradient(180deg, #0f1b32 0%, #081125 100%);
-  color: #f7f2e5;
+    radial-gradient(circle at 30% 30%, rgba(196, 120, 142, 0.14), transparent 24%),
+    linear-gradient(180deg, #fbf0f3 0%, #f7f1ea 100%);
+  color: #1c1612;
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -103,11 +117,11 @@
   position: absolute;
   top: 22px;
   right: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid #f0d8df;
   border-radius: 999px;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(247, 242, 229, 0.7);
+  background: rgba(255, 250, 242, 0.7);
+  color: #c4788e;
   font-size: 0.76rem;
 }
 
@@ -115,15 +129,15 @@
   width: 190px;
   height: 190px;
   border-radius: 50%;
-  border: 1px solid rgba(201, 161, 70, 0.35);
-  background: rgba(37, 50, 90, 0.72);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(196, 120, 142, 0.22);
+  background: rgba(242, 217, 223, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
   display: grid;
   place-items: center;
   margin: 36px auto 0;
   font-family: Georgia, 'Times New Roman', serif;
   font-size: clamp(3rem, 6vw, 4.8rem);
-  color: #d3ad59;
+  color: #c4788e;
   font-style: italic;
 }
 
@@ -133,7 +147,7 @@
   gap: 20px;
   margin-top: auto;
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(196, 120, 142, 0.14);
 }
 
 .appointment-metrics div {
@@ -145,14 +159,14 @@
 
 .appointment-metrics strong {
   font-size: 1.5rem;
-  color: #d8b15b;
+  color: #1c1612;
 }
 
 .appointment-metrics span {
   font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: rgba(247, 242, 229, 0.66);
+  color: #bf9b4e;
 }
 
 .appointment-main {
@@ -168,9 +182,9 @@
 .appointment-form-card,
 .appointment-sidebar__card {
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(24, 35, 54, 0.08);
-  box-shadow: 0 18px 50px rgba(24, 35, 54, 0.06);
+  background: rgba(255, 252, 248, 0.92);
+  border: 1px solid #ede5dc;
+  box-shadow: 0 18px 50px rgba(28, 22, 18, 0.06);
 }
 
 .appointment-form-card {
@@ -184,7 +198,7 @@
   gap: 18px;
   margin: 30px 0 16px;
   padding-bottom: 14px;
-  border-bottom: 1px solid rgba(24, 35, 54, 0.08);
+  border-bottom: 1px solid #f0d8df;
 }
 
 .appointment-section-title h2 {
@@ -213,7 +227,7 @@
 .appointment-summary span,
 .appointment-sidebar p,
 .appointment-sidebar li {
-  color: rgba(24, 35, 54, 0.72);
+  color: #5c5248;
   line-height: 1.7;
 }
 
@@ -221,10 +235,10 @@
 .appointment-field select,
 .appointment-field textarea {
   width: 100%;
-  border: 1px solid rgba(24, 35, 54, 0.12);
+  border: 1px solid #e6ddd3;
   border-radius: 16px;
   background: #fff;
-  color: #182336;
+  color: #1c1612;
   padding: 14px 16px;
   font: inherit;
   transition:
@@ -242,8 +256,8 @@
 .appointment-field select:focus,
 .appointment-field textarea:focus {
   outline: none;
-  border-color: #c8a14a;
-  box-shadow: 0 0 0 4px rgba(200, 161, 74, 0.12);
+  border-color: #c4788e;
+  box-shadow: 0 0 0 4px rgba(196, 120, 142, 0.12);
 }
 
 .appointment-field--textarea {
@@ -257,9 +271,9 @@
 }
 
 .appointment-time-chip {
-  border: 1px solid rgba(24, 35, 54, 0.12);
+  border: 1px solid #e6ddd3;
   background: #fff;
-  color: #182336;
+  color: #1c1612;
   border-radius: 999px;
   padding: 10px 14px;
   font: inherit;
@@ -274,13 +288,13 @@
 .appointment-time-chip:hover,
 .appointment-time-chip:focus-visible {
   transform: translateY(-1px);
-  border-color: #c8a14a;
+  border-color: #c4788e;
 }
 
 .appointment-time-chip.is-active {
-  background: #12213c;
+  background: #c4788e;
   color: #fff;
-  border-color: #12213c;
+  border-color: #c4788e;
 }
 
 .appointment-summary {
@@ -290,7 +304,7 @@
   margin: 24px 0;
   padding: 18px;
   border-radius: 20px;
-  background: linear-gradient(180deg, rgba(18, 33, 60, 0.04), rgba(18, 33, 60, 0.02));
+  background: linear-gradient(180deg, rgba(242, 217, 223, 0.45), rgba(255, 255, 255, 0.2));
 }
 
 .appointment-summary div,
@@ -301,7 +315,7 @@
 }
 
 .appointment-summary strong {
-  color: #12213c;
+  color: #1c1612;
   font-size: 1rem;
 }
 
@@ -313,11 +327,11 @@
   border: 0;
   border-radius: 14px;
   padding: 15px 24px;
-  background: #12213c;
+  background: #c4788e;
   color: #fff;
   font-weight: 700;
   letter-spacing: 0.01em;
-  box-shadow: 0 16px 32px rgba(18, 33, 60, 0.18);
+  box-shadow: 0 16px 32px rgba(196, 120, 142, 0.2);
   cursor: pointer;
   transition:
     transform 0.2s ease,
@@ -328,13 +342,13 @@
 .appointment-button:hover,
 .appointment-button:focus-visible {
   transform: translateY(-1px);
-  box-shadow: 0 20px 36px rgba(18, 33, 60, 0.22);
+  box-shadow: 0 20px 36px rgba(196, 120, 142, 0.26);
 }
 
 .appointment-button--ghost {
   background: transparent;
-  color: #12213c;
-  border: 1px solid rgba(18, 33, 60, 0.14);
+  color: #1c1612;
+  border: 1px solid rgba(196, 120, 142, 0.2);
   box-shadow: none;
 }
 
@@ -351,7 +365,7 @@
 .appointment-success p {
   max-width: 42rem;
   line-height: 1.8;
-  color: rgba(24, 35, 54, 0.76);
+  color: #5c5248;
 }
 
 .appointment-sidebar {
@@ -364,13 +378,13 @@
 }
 
 .appointment-sidebar__card--accent {
-  background: linear-gradient(180deg, #12213c 0%, #0a1327 100%);
-  color: #f9f2e1;
+  background: linear-gradient(180deg, #fbf0f3 0%, #f7f1ea 100%);
+  color: #1c1612;
 }
 
 .appointment-sidebar__card--accent p,
 .appointment-sidebar__card--accent li {
-  color: rgba(249, 242, 225, 0.78);
+  color: #5c5248;
 }
 
 .appointment-sidebar h3 {
@@ -387,12 +401,12 @@
 }
 
 .appointment-steps li::marker {
-  color: #c8a14a;
+  color: #c4788e;
   font-weight: 700;
 }
 
 .appointment-sidebar__card--accent .appointment-sidebar__eyebrow {
-  color: #d9b35d;
+  color: #c4788e;
 }
 
 .appointment-cta {
@@ -406,8 +420,8 @@
   gap: 24px;
   padding: 28px 32px;
   border-radius: 24px;
-  background: linear-gradient(135deg, #12213c 0%, #0a1327 100%);
-  color: #fff;
+  background: linear-gradient(135deg, #fbf0f3 0%, #f7f1ea 100%);
+  color: #1c1612;
 }
 
 .appointment-cta h2 {
@@ -417,7 +431,7 @@
 .appointment-cta p {
   max-width: 34rem;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.78);
+  color: #5c5248;
 }
 
 .appointment-cta__actions {
@@ -428,8 +442,8 @@
 }
 
 .appointment-cta__actions .appointment-button--ghost {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.18);
+  color: #1c1612;
+  border-color: rgba(196, 120, 142, 0.2);
 }
 
 @media (max-width: 1024px) {
