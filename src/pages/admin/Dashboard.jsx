@@ -54,7 +54,7 @@ export function Dashboard() {
                 <th className="px-4 py-3 font-medium">Name</th>
                 <th className="px-4 py-3 font-medium">Contact</th>
                 <th className="px-4 py-3 font-medium">Service</th>
-                <th className="px-4 py-3 font-medium">Date</th>
+                <th className="px-4 py-3 font-medium">Date & time</th>
                 <th className="px-4 py-3 font-medium">Status</th>
                 <th className="px-4 py-3 font-medium">Action</th>
               </tr>
@@ -65,7 +65,10 @@ export function Dashboard() {
                   <td className="px-4 py-4 text-white">{booking.full_name}</td>
                   <td className="px-4 py-4 text-white/75">{booking.phone}</td>
                   <td className="px-4 py-4 text-white/75">{booking.service}</td>
-                  <td className="px-4 py-4 text-white/75">{booking.preferred_date}</td>
+                  <td className="px-4 py-4 text-white/75">
+                    <div>{booking.preferred_date}</div>
+                    <div className="text-xs text-white/45">{booking.preferred_time}</div>
+                  </td>
                   <td className="px-4 py-4 text-white/75">{booking.status}</td>
                   <td className="px-4 py-4">
                     <select

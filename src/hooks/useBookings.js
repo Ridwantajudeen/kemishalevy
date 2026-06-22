@@ -1,24 +1,17 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
+import { loadAdminBookings, updateAdminBookingStatus } from '../lib/adminBookings'
 
 export function useBookings() {
   const [bookings, setBookings] = useState([])
-  const [loading, setLoading] = useState(Boolean(supabase))
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    if (!supabase) {
-      return undefined
-    }
-
     let isMounted = true
 
     const loadBookings = async () => {
       setLoading(true)
-      const { data, error: fetchError } = await supabase
-        .from('bookings')
-        .select('*')
-        .order('created_at', { ascending: false })
+      const { data, error: fetchError } = await loadAdminBookings()
 
       if (!isMounted) return
 
@@ -41,13 +34,8 @@ export function useBookings() {
   }, [])
 
   const refresh = async () => {
-    if (!supabase) return
-
     setLoading(true)
-    const { data, error: fetchError } = await supabase
-      .from('bookings')
-      .select('*')
-      .order('created_at', { ascending: false })
+    const { data, error: fetchError } = await loadAdminBookings()
 
     if (fetchError) {
       setError(fetchError.message)
@@ -61,11 +49,7 @@ export function useBookings() {
   }
 
   const updateBookingStatus = async (id, status) => {
-    if (!supabase) {
-      return { error: new Error('Supabase is not configured yet.') }
-    }
-
-    const result = await supabase.from('bookings').update({ status }).eq('id', id)
+    const result = await updateAdminBookingStatus(id, status)
 
     if (!result.error) {
       await refresh()

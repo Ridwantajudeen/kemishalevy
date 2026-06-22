@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { submitBookingRequest } from '../lib/bookings';
 import './notary.css';
 
 const serviceOptions = [
@@ -34,6 +35,8 @@ const expectations = [
 
 export default function Notary() {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const [selectedTime, setSelectedTime] = useState(timeSlots[1]);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -49,9 +52,42 @@ export default function Notary() {
     setFormData((current) => ({ ...current, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const submitRequest = async () => {
+    setSubmitError('');
+    setIsSubmitting(true);
+
+    try {
+      const result = await submitBookingRequest({
+        ...formData,
+        preferredDate: formData.date,
+        preferredTime: selectedTime,
+      });
+
+      if (result.error) {
+        setSubmitError(result.error.message || 'We could not send your request right now.');
+        return;
+      }
+
+      setSubmitted(true);
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        service: serviceOptions[0],
+        date: '',
+        notes: '',
+      });
+      setSelectedTime(timeSlots[1]);
+    } catch {
+      setSubmitError('We could not send your request right now.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    setSubmitted(true);
+    await submitRequest();
   };
 
   return (
@@ -119,7 +155,7 @@ export default function Notary() {
                 </button>
               </div>
             ) : (
-              <form className="appointment-form" onSubmit={handleSubmit}>
+              <form className="appointment-form" onSubmit={handleFormSubmit}>
                 <div className="appointment-section-title">
                   <p>Step 1</p>
                   <h2>Your information</h2>
@@ -213,6 +249,8 @@ export default function Notary() {
                   <h2>Anything else we should know?</h2>
                 </div>
 
+                {submitError ? <p className="appointment-error">{submitError}</p> : null}
+
                 <label className="appointment-field appointment-field--textarea">
                   <span>Additional notes</span>
                   <textarea
@@ -235,8 +273,8 @@ export default function Notary() {
                   </div>
                 </div>
 
-                <button type="submit" className="appointment-button">
-                  Request appointment
+                <button type="submit" className="appointment-button" disabled={isSubmitting}>
+                  {isSubmitting ? 'Sending request...' : 'Request appointment'}
                 </button>
               </form>
             )}

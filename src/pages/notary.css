@@ -345,11 +345,28 @@
   box-shadow: 0 20px 36px rgba(196, 120, 142, 0.26);
 }
 
+.appointment-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+  box-shadow: none;
+}
+
 .appointment-button--ghost {
   background: transparent;
   color: #1c1612;
   border: 1px solid rgba(196, 120, 142, 0.2);
   box-shadow: none;
+}
+
+.appointment-error {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(196, 120, 142, 0.1);
+  border: 1px solid rgba(196, 120, 142, 0.24);
+  color: #8b3556;
+  font-weight: 500;
 }
 
 .appointment-success {

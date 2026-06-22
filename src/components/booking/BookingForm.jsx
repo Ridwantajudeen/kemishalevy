@@ -1,6 +1,14 @@
 import { useState } from 'react'
 import { BookingSuccess } from './BookingSuccess'
-import { notaryServices } from '../../lib/constants'
+import { submitBookingRequest } from '../../lib/bookings'
+
+const notaryServices = [
+  'General notary appointment',
+  'Affidavit notarization',
+  'Power of attorney',
+  'Document witnessing',
+  'Business paperwork',
+]
 
 const initialForm = {
   fullName: '',
@@ -15,15 +23,37 @@ const initialForm = {
 export function BookingForm() {
   const [form, setForm] = useState(initialForm)
   const [submittedBooking, setSubmittedBooking] = useState(null)
+  const [error, setError] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setForm((current) => ({ ...current, [name]: value }))
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setSubmittedBooking(form)
+    setError('')
+    setIsSubmitting(true)
+
+    try {
+      const result = await submitBookingRequest({
+        ...form,
+        preferredDate: form.preferredDate,
+        preferredTime: form.preferredTime,
+      })
+
+      if (result.error) {
+        setError(result.error.message || 'We could not submit your booking request.')
+        return
+      }
+
+      setSubmittedBooking(result.data ?? form)
+    } catch {
+      setError('We could not submit your booking request.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (submittedBooking) {
@@ -31,7 +61,10 @@ export function BookingForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-3xl border border-[#d6c7d0] bg-white/85 p-6 shadow-[0_18px_60px_rgba(42,26,62,0.08)]">
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-3xl border border-[#d6c7d0] bg-white/85 p-6 shadow-[0_18px_60px_rgba(42,26,62,0.08)]"
+    >
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="grid gap-2">
           <span className="text-sm font-medium text-[#2a1a3e]">Full name</span>
@@ -121,11 +154,14 @@ export function BookingForm() {
         />
       </label>
 
+      {error ? <p className="mt-4 text-sm text-[#9b4f7a]">{error}</p> : null}
+
       <button
         type="submit"
-        className="mt-6 inline-flex rounded-full bg-[#2a1a3e] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#3a2457]"
+        disabled={isSubmitting}
+        className="mt-6 inline-flex rounded-full bg-[#2a1a3e] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#3a2457] disabled:cursor-not-allowed disabled:opacity-70"
       >
-        Submit booking request
+        {isSubmitting ? 'Sending request...' : 'Submit booking request'}
       </button>
     </form>
   )

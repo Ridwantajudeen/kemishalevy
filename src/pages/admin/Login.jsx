@@ -35,7 +35,7 @@ export function Login() {
       <h2 className="mt-3 text-3xl font-semibold">Admin sign in</h2>
       <p className="mt-3 text-sm text-white/65">
         {isConfigured
-          ? 'Use the Supabase admin credentials to enter the dashboard.'
+          ? 'Use the admin email and password you created in Supabase to enter the dashboard.'
           : 'Add the Supabase env vars before trying to log in.'}
       </p>
 
