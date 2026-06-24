@@ -1,11 +1,6 @@
-import { hasSupabaseConfig, supabase } from './supabase'
-
-const bookingsEndpoint = import.meta.env.VITE_BOOKINGS_ENDPOINT?.trim()
-const useLocalFallback =
-  import.meta.env.DEV && Boolean(bookingsEndpoint) && bookingsEndpoint.startsWith('/api/')
-
 function buildBookingPayload(form) {
-  return {
+  console.log('[PAYLOAD BUILD] Input form:', form)
+  const payload = {
     full_name: form.fullName.trim(),
     phone: form.phone.trim(),
     email: form.email.trim(),
@@ -15,59 +10,28 @@ function buildBookingPayload(form) {
     notes: form.notes.trim(),
     status: 'pending',
   }
+  console.log('[PAYLOAD BUILD] Built payload:', payload)
+  return payload
 }
 
 export async function submitBookingRequest(form) {
   const payload = buildBookingPayload(form)
 
-  if (bookingsEndpoint) {
-    try {
-      const response = await fetch(bookingsEndpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      })
+  try {
+    const response = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
 
-      if (useLocalFallback && response.status === 404) {
-        const { data, error } = await supabase.from('bookings').insert([payload]).select().single()
-        return { data, error }
-      }
+    const result = await response.json()
 
-      const result = await response.json().catch(() => null)
-
-      if (!response.ok) {
-        const message =
-          result?.error ||
-          result?.message ||
-          'We could not submit your booking request right now.'
-
-        return { data: null, error: new Error(message) }
-      }
-
-      return { data: result?.booking ?? result, error: null }
-    } catch {
-      if (useLocalFallback && hasSupabaseConfig && supabase) {
-        const { data, error } = await supabase.from('bookings').insert([payload]).select().single()
-        return { data, error }
-      }
-
-      return {
-        data: null,
-        error: new Error('We could not reach the booking server right now.'),
-      }
+    if (!response.ok) {
+      return { data: null, error: new Error(result.error) }
     }
+
+    return { data: result, error: null }
+  } catch (err) {
+    return { data: null, error: err }
   }
-
-  if (!hasSupabaseConfig || !supabase) {
-    return {
-      data: null,
-      error: new Error('Booking backend is not configured yet.'),
-    }
-  }
-
-  const { data, error } = await supabase.from('bookings').insert([payload]).select().single()
-
-  return { data, error }
 }

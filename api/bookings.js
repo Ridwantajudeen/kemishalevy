@@ -1,8 +1,11 @@
-import { Buffer } from 'node:buffer'
 import process from 'node:process'
 import { createClient } from '@supabase/supabase-js'
+import dotenv from 'dotenv'
 
-function readBody(req) {
+// Load local .env for dev mode so the service role key is available
+dotenv.config()
+
+function parseJsonBody(req) {
   if (!req.body) {
     return null
   }
@@ -18,70 +21,13 @@ function readBody(req) {
   return req.body
 }
 
-function formatWhatsAppMessage(booking) {
-  return [
-    'New booking request from Kemisha Levy site',
-    `Name: ${booking.full_name}`,
-    `Phone: ${booking.phone}`,
-    `Email: ${booking.email || 'Not provided'}`,
-    `Service: ${booking.service}`,
-    `Date: ${booking.preferred_date}`,
-    `Time: ${booking.preferred_time || 'Not selected'}`,
-    `Notes: ${booking.notes || 'None'}`,
-  ].join('\n')
-}
-
-async function sendWhatsAppNotification(booking) {
-  const {
-    TWILIO_ACCOUNT_SID,
-    TWILIO_AUTH_TOKEN,
-    TWILIO_WHATSAPP_FROM,
-    WHATSAPP_NOTIFICATION_TO,
-  } = process.env
-
-  if (
-    !TWILIO_ACCOUNT_SID ||
-    !TWILIO_AUTH_TOKEN ||
-    !TWILIO_WHATSAPP_FROM ||
-    !WHATSAPP_NOTIFICATION_TO
-  ) {
-    return { sent: false, skipped: true }
-  }
-
-  const body = new URLSearchParams()
-  body.set('From', TWILIO_WHATSAPP_FROM)
-  body.set('To', WHATSAPP_NOTIFICATION_TO)
-  body.set('Body', formatWhatsAppMessage(booking))
-
-  const response = await fetch(
-    `https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${Buffer.from(
-          `${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}`,
-        ).toString('base64')}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body,
-    },
-  )
-
-  if (!response.ok) {
-    const details = await response.text()
-    throw new Error(`WhatsApp notification failed: ${details}`)
-  }
-
-  return { sent: true }
-}
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const payload = readBody(req)
+  const payload = parseJsonBody(req)
 
   if (!payload) {
     return res.status(400).json({ error: 'Invalid request body.' })
@@ -117,29 +63,12 @@ export default async function handler(req, res) {
   }
 
   const { data, error } = await supabase
-    .from('bookings')
-    .insert([bookingToInsert])
-    .select()
-    .single()
+    .from('booking_requests')
+    .insert([bookingToInsert], { returning: 'minimal' })
 
   if (error) {
     return res.status(500).json({ error: error.message })
   }
 
-  let whatsapp = { sent: false, skipped: true }
-
-  try {
-    whatsapp = await sendWhatsAppNotification(data)
-  } catch (notificationError) {
-    return res.status(201).json({
-      booking: data,
-      warning: notificationError.message,
-      whatsapp,
-    })
-  }
-
-  return res.status(201).json({
-    booking: data,
-    whatsapp,
-  })
+  return res.status(201).json({ success: true })
 }

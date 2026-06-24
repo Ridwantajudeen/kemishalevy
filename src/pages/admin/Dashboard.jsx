@@ -13,73 +13,76 @@ export function Dashboard() {
       : bookings.filter((booking) => booking.status === statusFilter)
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-white/45">
-              Bookings
+    <div className="space-y-10">
+      <section className="rounded-4xl border border-[#ede5dc] bg-white p-10 shadow-[0_18px_50px_rgba(10,22,40,0.08)]">
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
+          <div className="max-w-2xl">
+            <p className="section-kicker">Admin dashboard</p>
+            <h1 className="section-title">Manage booking requests</h1>
+            <p className="section-subtitle text-[#5c5248]">
+              Review new requests, update statuses, and keep the booking queue moving.
             </p>
-            <h2 className="mt-2 text-3xl font-semibold">Manage appointment requests</h2>
           </div>
 
-          <label className="grid gap-2 text-sm text-white/70">
-            Filter
-            <select
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value)}
-              className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-white outline-none"
-            >
-              {statusOptions.map((option) => (
-                <option key={option} value={option} className="text-black">
-                  {option === 'all' ? 'All' : option}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className="grid gap-3 sm:grid-cols-[auto_auto]">
+            <label className="grid gap-2 text-sm text-[#5c5248]">
+              Filter
+              <select
+                value={statusFilter}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                className="rounded-2xl border border-[#ede5dc] bg-[#fffcf8] px-4 py-3 text-[#1c1612] outline-none"
+              >
+                {statusOptions.map((option) => (
+                  <option key={option} value={option} className="text-[#1c1612]">
+                    {option === 'all' ? 'All' : option}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5">
+      <section className="overflow-hidden rounded-4xl border border-[#ede5dc] bg-white shadow-[0_18px_50px_rgba(10,22,40,0.08)]">
         {loading ? (
-          <div className="p-8 text-white/70">Loading bookings...</div>
+          <div className="p-8 text-[#5c5248]">Loading bookings...</div>
         ) : error ? (
-          <div className="p-8 text-[#ffb6c8]">{error}</div>
+          <div className="p-8 text-[#c4788e]">{error}</div>
         ) : visibleBookings.length === 0 ? (
-          <div className="p-8 text-white/70">No bookings yet.</div>
+          <div className="p-8 text-[#5c5248]">No bookings yet.</div>
         ) : (
-          <table className="min-w-full divide-y divide-white/10 text-left text-sm">
-            <thead className="bg-white/5 text-white/55">
+          <table className="min-w-full divide-y divide-[#ede5dc] text-left text-sm">
+            <thead className="bg-[#fffcf8] text-[#5c5248]">
               <tr>
-                <th className="px-4 py-3 font-medium">Name</th>
-                <th className="px-4 py-3 font-medium">Contact</th>
-                <th className="px-4 py-3 font-medium">Service</th>
-                <th className="px-4 py-3 font-medium">Date & time</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Action</th>
+                <th className="px-4 py-4 font-semibold">Name</th>
+                <th className="px-4 py-4 font-semibold">Contact</th>
+                <th className="px-4 py-4 font-semibold">Service</th>
+                <th className="px-4 py-4 font-semibold">Date & time</th>
+                <th className="px-4 py-4 font-semibold">Status</th>
+                <th className="px-4 py-4 font-semibold">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
+            <tbody className="divide-y divide-[#ede5dc] bg-white text-[#1c1612]">
               {visibleBookings.map((booking) => (
-                <tr key={booking.id} className="bg-white/0">
-                  <td className="px-4 py-4 text-white">{booking.full_name}</td>
-                  <td className="px-4 py-4 text-white/75">{booking.phone}</td>
-                  <td className="px-4 py-4 text-white/75">{booking.service}</td>
-                  <td className="px-4 py-4 text-white/75">
+                <tr key={booking.id}>
+                  <td className="px-4 py-4">{booking.full_name}</td>
+                  <td className="px-4 py-4 text-[#5c5248]">{booking.phone}</td>
+                  <td className="px-4 py-4 text-[#5c5248]">{booking.service}</td>
+                  <td className="px-4 py-4 text-[#5c5248]">
                     <div>{booking.preferred_date}</div>
-                    <div className="text-xs text-white/45">{booking.preferred_time}</div>
+                    <div className="text-xs text-[#9b8f84]">{booking.preferred_time}</div>
                   </td>
-                  <td className="px-4 py-4 text-white/75">{booking.status}</td>
+                  <td className="px-4 py-4 text-[#5c5248]">{booking.status}</td>
                   <td className="px-4 py-4">
                     <select
                       defaultValue={booking.status}
                       onChange={(event) =>
                         updateBookingStatus(booking.id, event.target.value)
                       }
-                      className="rounded-xl border border-white/10 bg-white/10 px-3 py-2 text-white outline-none"
+                      className="rounded-xl border border-[#ede5dc] bg-white px-3 py-2 text-[#1c1612] outline-none"
                     >
                       {['pending', 'confirmed', 'cancelled', 'done'].map((status) => (
-                        <option key={status} value={status} className="text-black">
+                        <option key={status} value={status} className="text-[#1c1612]">
                           {status}
                         </option>
                       ))}
@@ -90,7 +93,7 @@ export function Dashboard() {
             </tbody>
           </table>
         )}
-      </div>
+      </section>
     </div>
   )
 }

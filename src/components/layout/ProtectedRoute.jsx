@@ -7,7 +7,7 @@ export function ProtectedRoute() {
 
   if (loading) {
     return (
-      <div className="rounded-3xl border border-white/10 bg-white/5 p-8 text-white">
+      <div className="mx-auto max-w-4xl rounded-4xl border border-[#d6c7d0] bg-white/85 p-8 text-[#2a1a3e] shadow-[0_18px_60px_rgba(42,26,62,0.08)]">
         Checking admin session...
       </div>
     )

@@ -27,6 +27,9 @@ create index if not exists bookings_status_idx
 create index if not exists bookings_preferred_date_idx
   on public.bookings (preferred_date);
 
+grant insert on public.bookings to anon;
+grant select, insert, update, delete on public.bookings to service_role;
+
 create or replace function public.set_updated_at()
 returns trigger
 language plpgsql

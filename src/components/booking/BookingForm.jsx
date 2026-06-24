@@ -48,8 +48,10 @@ export function BookingForm() {
         return
       }
 
+      console.log('[FORM SUBMIT] SUCCESS - Setting submitted booking')
       setSubmittedBooking(result.data ?? form)
-    } catch {
+    } catch (err) {
+      console.error('[FORM SUBMIT] Exception caught:', err)
       setError('We could not submit your booking request.')
     } finally {
       setIsSubmitting(false)
