@@ -1,6 +1,8 @@
 import process from 'node:process'
+import { randomBytes } from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
+import { notifyBookingSubmission } from './notifications.js'
 
 // Load local .env for dev mode so the service role key is available
 dotenv.config()
@@ -19,6 +21,13 @@ function parseJsonBody(req) {
   }
 
   return req.body
+}
+
+function generateBookingNumber() {
+  const datePart = new Date().toISOString().slice(2, 10).replace(/-/g, '')
+  const randomPart = randomBytes(3).toString('hex').toUpperCase()
+
+  return `BKG-${datePart}-${randomPart}`
 }
 
 export default async function handler(req, res) {
@@ -52,6 +61,7 @@ export default async function handler(req, res) {
   const supabase = createClient(supabaseUrl, supabaseServiceRoleKey)
 
   const bookingToInsert = {
+    booking_number: generateBookingNumber(),
     full_name: String(payload.full_name).trim(),
     phone: String(payload.phone).trim(),
     email: String(payload.email ?? '').trim(),
@@ -60,15 +70,25 @@ export default async function handler(req, res) {
     preferred_time: String(payload.preferred_time ?? '').trim(),
     notes: String(payload.notes ?? '').trim(),
     status: 'pending',
+    status_note: null,
+    status_changed_at: new Date().toISOString(),
   }
 
   const { data, error } = await supabase
     .from('booking_requests')
-    .insert([bookingToInsert], { returning: 'minimal' })
+    .insert([bookingToInsert])
+    .select('*')
+    .single()
 
   if (error) {
     return res.status(500).json({ error: error.message })
   }
 
-  return res.status(201).json({ success: true })
+  const notificationResult = await notifyBookingSubmission(bookingToInsert)
+
+  return res.status(201).json({
+    success: true,
+    booking: data,
+    notifications: notificationResult,
+  })
 }

@@ -1,15 +1,14 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { Footer } from './Footer'
 
 export function AdminLayout() {
   const { session, signOut } = useAuth()
-  const navigate = useNavigate()
 
   const onLogout = async () => {
     const { error } = await signOut()
     if (error) {
-      console.error('Admin logout failed', error)
+      console.error('Admin logout failed')
     }
 
     window.location.replace('/admin/login')

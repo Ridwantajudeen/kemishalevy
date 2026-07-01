@@ -48,8 +48,8 @@ export function useBookings() {
     setLoading(false)
   }
 
-  const updateBookingStatus = async (id, status) => {
-    const result = await updateAdminBookingStatus(id, status)
+  const updateBookingStatus = async (id, status, note = '') => {
+    const result = await updateAdminBookingStatus(id, status, note)
 
     if (!result.error) {
       await refresh()

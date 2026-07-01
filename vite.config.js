@@ -7,7 +7,7 @@ function apiDevMiddleware() {
   return {
     name: 'api-dev-middleware',
     configureServer(server) {
-      server.middlewares.use('/api', async (req, res, next) => {
+      server.middlewares.use('/api', async (req, res) => {
         try {
           // Import the handlers dynamically
           const { default: bookingsHandler } = await import('./api/bookings.js')

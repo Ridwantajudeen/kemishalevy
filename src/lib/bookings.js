@@ -1,5 +1,4 @@
 function buildBookingPayload(form) {
-  console.log('[PAYLOAD BUILD] Input form:', form)
   const payload = {
     full_name: form.fullName.trim(),
     phone: form.phone.trim(),
@@ -10,7 +9,6 @@ function buildBookingPayload(form) {
     notes: form.notes.trim(),
     status: 'pending',
   }
-  console.log('[PAYLOAD BUILD] Built payload:', payload)
   return payload
 }
 

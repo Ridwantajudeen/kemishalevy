@@ -1,6 +1,7 @@
 import process from 'node:process'
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
+import { notifyBookingStatusChange } from '../notifications.js'
 
 // Load local .env in dev so service role is available
 dotenv.config()
@@ -65,9 +66,21 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing booking id or status.' })
     }
 
+    const allowedStatuses = new Set(['pending', 'confirmed', 'cancelled', 'done'])
+
+    if (!allowedStatuses.has(payload.status)) {
+      return res.status(400).json({ error: 'Invalid booking status.' })
+    }
+
+    const statusNote = String(payload.note ?? '').trim()
+
     const { data, error } = await serviceClient
       .from('booking_requests')
-      .update({ status: payload.status })
+      .update({
+        status: payload.status,
+        status_note: statusNote || null,
+        status_changed_at: new Date().toISOString(),
+      })
       .eq('id', payload.id)
       .select('*')
       .single()
@@ -76,7 +89,16 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: error.message })
     }
 
-    return res.status(200).json({ booking: data })
+    let notifications = null
+
+    if (['confirmed', 'cancelled', 'done'].includes(payload.status)) {
+      notifications = await notifyBookingStatusChange(data, {
+        status: payload.status,
+        note: statusNote,
+      })
+    }
+
+    return res.status(200).json({ booking: data, notifications })
   }
 
   res.setHeader('Allow', 'GET, PATCH')

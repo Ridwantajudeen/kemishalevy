@@ -21,8 +21,7 @@ async function requestAdminBookings(method, body) {
       data: result?.bookings ?? result?.booking ?? result,
       error: null,
     }
-  } catch (error) {
-    console.error('[ADMIN BOOKING] Fetch error:', error)
+  } catch {
     return {
       data: null,
       error: new Error('Could not reach the admin booking server right now.'),
@@ -34,6 +33,6 @@ export async function loadAdminBookings() {
   return requestAdminBookings('GET')
 }
 
-export async function updateAdminBookingStatus(id, status) {
-  return requestAdminBookings('PATCH', { id, status })
+export async function updateAdminBookingStatus(id, status, note = '') {
+  return requestAdminBookings('PATCH', { id, status, note })
 }

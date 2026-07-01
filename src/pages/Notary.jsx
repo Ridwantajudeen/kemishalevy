@@ -35,8 +35,10 @@ const expectations = [
 
 export default function Notary() {
   const [submitted, setSubmitted] = useState(false);
+  const [submittedBooking, setSubmittedBooking] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [submitNotice, setSubmitNotice] = useState('');
   const [selectedTime, setSelectedTime] = useState(timeSlots[1]);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -54,6 +56,7 @@ export default function Notary() {
 
   const submitRequest = async () => {
     setSubmitError('');
+    setSubmitNotice('');
     setIsSubmitting(true);
 
     try {
@@ -68,6 +71,16 @@ export default function Notary() {
         return;
       }
 
+      const confirmationResult = result.data?.notifications?.confirmation;
+      if (confirmationResult && !confirmationResult.sent && !confirmationResult.skipped) {
+        setSubmitNotice(
+          `The booking saved, but the confirmation email did not send.${
+            confirmationResult.details ? ` ${confirmationResult.details}` : ''
+          }`,
+        );
+      }
+
+      setSubmittedBooking(result.data?.booking ?? null);
       setSubmitted(true);
       setFormData({
         fullName: '',
@@ -142,10 +155,16 @@ export default function Notary() {
               <div className="appointment-success">
                 <p className="appointment-success__eyebrow">Request received</p>
                 <h2>Your booking request is in</h2>
+                {submittedBooking?.booking_number ? (
+                  <p className="mt-3 font-semibold text-[#5c5248]">
+                    Booking number: <span className="font-mono">{submittedBooking.booking_number}</span>
+                  </p>
+                ) : null}
                 <p>
                   Thank you. We will review the information you sent and get back to
                   you as soon as possible with confirmation and next steps.
                 </p>
+                {submitNotice ? <p className="appointment-error">{submitNotice}</p> : null}
                 <button
                   type="button"
                   className="appointment-button appointment-button--ghost"
